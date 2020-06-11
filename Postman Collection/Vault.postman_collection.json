@@ -1,0 +1,497 @@
+{
+	"info": {
+		"_postman_id": "5785bc06-eb30-43d5-b87f-6d8d246da54d",
+		"name": ".Vault",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "init vault",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32423b20-d92c-4769-9860-422347f116b4",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"console.log(data);",
+							"postman.setEnvironmentVariable(\"keys\", data.keys);",
+							"postman.setEnvironmentVariable(\"root_token\", data.root_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"secret_shares\": 1, \"secret_threshold\": 1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/sys/init",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"sys",
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unseal vault",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c785e0ea-6f76-4fd8-9ca8-08837831b601",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"key\": \"{{keys}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/sys/unseal",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"sys",
+						"unseal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "enable KV secrets engine",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"type\":\"kv-v2\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/sys/mounts/secret",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"sys",
+						"mounts",
+						"secret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add AppRole",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"type\": \"approle\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8200/v1/sys/auth/approle",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8200",
+					"path": [
+						"v1",
+						"sys",
+						"auth",
+						"approle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add ACL Policy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"policy\": \"# Dev servers have version 1 of KV secrets engine mounted by default, so will\\n# need these paths to grant permissions:\\npath \\\"kv-v1/devnet/dnac/*\\\" {\\n  capabilities = [\\\"create\\\", \\\"update\\\",\\\"read\\\"]\\n}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/sys/policies/acl/my-policy",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"sys",
+						"policies",
+						"acl",
+						"my-policy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bind policy to role",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"policies\": [\"my-policy\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/auth/approle/role/my-role",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"auth",
+						"approle",
+						"role",
+						"my-role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Role ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ad89d65-7516-4e38-80e8-b2b95a5e2e2b",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"console.log(data);",
+							"postman.setEnvironmentVariable(\"role_id\", data.data.role_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{vault}}/v1/auth/approle/role/my-role/role-id",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"auth",
+						"approle",
+						"role",
+						"my-role",
+						"role-id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Secret ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ad89d65-7516-4e38-80e8-b2b95a5e2e2b",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"console.log(data);",
+							"postman.setEnvironmentVariable(\"secret_id\", data.data.secret_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{vault}}/v1/auth/approle/role/my-role/secret-id",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"auth",
+						"approle",
+						"role",
+						"my-role",
+						"secret-id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Client Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ad89d65-7516-4e38-80e8-b2b95a5e2e2b",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"console.log(data);",
+							"postman.setEnvironmentVariable(\"secret_id\", data.data.secret_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"role_id\": \"{{role_id}}\", \"secret_id\": \"{{secret_id}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/auth/approle/login",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"auth",
+						"approle",
+						"login"
+					]
+				},
+				"description": "to be used by any app"
+			},
+			"response": []
+		},
+		{
+			"name": "Post KV Secret",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d9661a5-fb80-49cb-8477-989e05c2ca06",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"devnetuser\": \"Cisco1234!\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/kv/devnet/dnac/sb1",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"kv",
+						"devnet",
+						"dnac",
+						"sb1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get KV Secret",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d9661a5-fb80-49cb-8477-989e05c2ca06",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Vault-Token",
+						"value": "{{root_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"devnetuser\": \"Cisco1234!\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{vault}}/v1/kv/devnet/dnac/sb1",
+					"protocol": "http",
+					"host": [
+						"{{vault}}"
+					],
+					"path": [
+						"v1",
+						"kv",
+						"devnet",
+						"dnac",
+						"sb1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
