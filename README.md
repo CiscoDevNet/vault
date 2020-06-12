@@ -28,7 +28,7 @@ vault server -dev
   
 ###### **Option #2:** Start it up with a pre-existing config. by supplying the following command in `Terminal`
 
- ⚠️  [Vault Config file](vault config/config.hcl) 
+ ⚠️  [Vault Config file](Vault-Config/config.hcl) 
  
 ```Bash
 vault server -config config.hcl 
@@ -62,7 +62,7 @@ vault server -config config.hcl
 
 
 ### Step 2: Initialize and Configure Vault
-Locate the provided Postman Collection folder, [import](https://learning.postman.com/docs/postman/collections/importing-and-exporting-data/) the `Vault.postman_collection` & `Vault-Env.postman_environment` into Postman and env variable and start initializing vault using its APIs 
+Locate the provided Postman Collection folder, [import](https://learning.postman.com/docs/postman/collections/importing-and-exporting-data/) the `Vault.postman_collection` & `Vault-Env.postman_environment` [Found Here](Postman-Collection)  into Postman and env variable and start initializing vault using its APIs 
 
 Assuming you chose to run vault using `Option #2` you will need to Initialize vault only once on initial run.
 
