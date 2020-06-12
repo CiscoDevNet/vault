@@ -27,6 +27,8 @@ vault server -dev
  ⚠️ If this is the option you choose, make sure you capture the `UNSEAL key` and `ROOT TOKEN` that's provided.
   
 ###### **Option #2:** Start it up with a pre-existing config. by supplying the following command in `Terminal`
+
+ ⚠️ [Vault Config file](vault config/config.hcl) 
  
 ```Bash
 vault server -config config.hcl 
