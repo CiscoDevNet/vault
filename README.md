@@ -89,7 +89,7 @@ In the provided Postman collection:
 
 This is what the ACL Policy `my-policy` looks like:
 
-```JSON
+```shell
 # Dev servers have version 1 of KV secrets engine mounted by default, so will
 # need these paths to grant permissions:
 path "kv-v1/devnet/dnac/*" {
@@ -123,7 +123,7 @@ Now that we have all the pieces of the puzzle in place *(step 1-4 we only need t
 2. Authenticate against Cisco DNA Center always on Sandbox
 3. Pull a list of managed Devices
 
-- Before you run `vault.py`:
+##### Prerequisites :
 
 ```shell
 python3 -m venv venv
