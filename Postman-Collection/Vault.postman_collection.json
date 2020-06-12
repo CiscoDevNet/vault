@@ -117,7 +117,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \"type\":\"kv-v2\" }",
+					"raw": "{ \"type\":\"kv-v1\" }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -125,7 +125,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{vault}}/v1/sys/mounts/secret",
+					"raw": "http://{{vault}}/v1/sys/mounts/kv-v1",
 					"protocol": "http",
 					"host": [
 						"{{vault}}"
@@ -134,7 +134,7 @@
 						"v1",
 						"sys",
 						"mounts",
-						"secret"
+						"kv-v1"
 					]
 				}
 			},
@@ -346,11 +346,11 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1ad89d65-7516-4e38-80e8-b2b95a5e2e2b",
+						"id": "37ee6ec2-1c6a-4ed2-998d-0eb646047856",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
 							"console.log(data);",
-							"postman.setEnvironmentVariable(\"secret_id\", data.data.secret_id);"
+							"postman.setEnvironmentVariable(\"client_token\", data.auth.client_token);"
 						],
 						"type": "text/javascript"
 					}
@@ -410,13 +410,13 @@
 				"header": [
 					{
 						"key": "X-Vault-Token",
-						"value": "{{root_token}}",
+						"value": "{{client_token}}",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"devnetuser\": \"Cisco1234!\"}",
+					"raw": "{\n\t\"username\": \"devnetuser\", \n\t\"password\": \"Cisco123!\",\n\t\"url\": \"https://sandboxdnac.cisco.com/\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -424,14 +424,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{vault}}/v1/kv/devnet/dnac/sb1",
+					"raw": "http://{{vault}}/v1/kv-v1/devnet/dnac/sb1",
 					"protocol": "http",
 					"host": [
 						"{{vault}}"
 					],
 					"path": [
 						"v1",
-						"kv",
+						"kv-v1",
 						"devnet",
 						"dnac",
 						"sb1"
@@ -462,13 +462,13 @@
 				"header": [
 					{
 						"key": "X-Vault-Token",
-						"value": "{{root_token}}",
+						"value": "{{client_token}}",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"devnetuser\": \"Cisco1234!\"}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -476,14 +476,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{vault}}/v1/kv/devnet/dnac/sb1",
+					"raw": "http://{{vault}}/v1/kv-v1/devnet/dnac/sb1",
 					"protocol": "http",
 					"host": [
 						"{{vault}}"
 					],
 					"path": [
 						"v1",
-						"kv",
+						"kv-v1",
 						"devnet",
 						"dnac",
 						"sb1"
