@@ -28,7 +28,7 @@ vault server -dev
   
 ###### **Option #2:** Start it up with a pre-existing config. by supplying the following command in `Terminal`
 
- ⚠️ [Vault Config file](vault config/config.hcl) 
+ ⚠️  [Vault Config file](vault config/config.hcl) 
  
 ```Bash
 vault server -config config.hcl 
