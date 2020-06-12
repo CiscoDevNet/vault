@@ -18,7 +18,7 @@ Once Vault is Installed, you first need to start it up. There are two options:
 
 ![vault](imgs/vault-hcl.png)
 
-###### **Option #1:** Start it up in `dev mode` by supplying the following command in `Terminal`
+###### **Option #1:** Start it up in `dev mode` by supplying the following cmd in `Terminal`
 ```Bash
 vault server -dev
 ```
@@ -26,13 +26,13 @@ vault server -dev
  
  ⚠️ If this is the option you choose, make sure you capture the `UNSEAL key` and `ROOT TOKEN` that's provided.
   
-###### **Option #2:** Start it up with a pre-existing config. by supplying the following command in `Terminal`
-
- ⚠️  [Vault Config file](vault config/config.hcl) 
+###### **Option #2:** Start it up with a pre-existing config. by supplying the following cmd in `Terminal`
  
 ```Bash
 vault server -config config.hcl 
 ```
+ ⚠️  [Vault Config file found here](vault config/config.hcl) 
+
 `config.hcl` this is what vault look for on startup. Here what it looks like 
 
 ```JSON
@@ -63,6 +63,8 @@ vault server -config config.hcl
 
 ### Step 2: Initialize and Configure Vault
 Locate the provided Postman Collection folder, [import](https://learning.postman.com/docs/postman/collections/importing-and-exporting-data/) the `Vault.postman_collection` & `Vault-Env.postman_environment` into Postman and env variable and start initializing vault using its APIs 
+
+ ⚠️  [Postman Collection found here](Postman-Collection) 
 
 Assuming you chose to run vault using `Option #2` you will need to Initialize vault only once on initial run.
 
@@ -107,14 +109,12 @@ In the provided Postman collection:
 3. `Fetch Vault Token` this will generate a `client_token` for us to use to Create, Read and Update Secrets in the mount our ACL granted permission to in this case `kv-v1/devnet/dnac/*` **Use this in you application to authenticate, Capture It!**
 
 
-
 ### Step 5: Create Secret 
 Now that we have all the pieces of the puzzle in place *(step 1-4 we only need to configure once)* we can now start storing secrets to be utilized by our application
 
 1. `Post KV Secret` using the `client_token`, we will create a new secret. In this case we are using **Cisco DNA Center Sandbox**  and writing the secret to `kv-v1/devnet/dnac/sb1` 
 
 ⚠️ You will need to remember your `mount/paths` in order to access your secrets.
-
 
 
 ## Automation in code
