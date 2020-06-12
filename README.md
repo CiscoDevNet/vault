@@ -31,7 +31,7 @@ vault server -dev
 ```Bash
 vault server -config config.hcl 
 ```
- ⚠️  [Vault Config file found here](vault config/config.hcl) 
+ ⚠️ [Vault Config file found here](Vault-Config/config.hcl) 
 
 `config.hcl` this is what vault look for on startup. Here what it looks like 
 
