@@ -134,24 +134,38 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-⚠️ Alter the `vault_unseal_key ` and `vault_client_token` based on your instance of Vault.
+⚠️ Put the `UNSEAL KEY` and `CLIENT TOKEN` into an environment variable 
+
+**Terminal:** 
+
+```Bash
+export CLIENT_TOKEN=<PLACE_YOUR_CLIENT_TOKEN_HERE>
+export UNSEAL_KEY=<PLACE_YOUR_UNSEAL_KEY_HERE>
+```
+
+**[Python](vault.py):** 
 
 ```Python
+import hvac
+import os
+from dnacentersdk import DNACenterAPI
+
 # Instantiate new Vault CLIENT
 client = hvac.Client()
-
-# Capture UNSEAL key when initializing your Vault Server
-vault_unseal_key = 'REPLACE_WITH_KEYS_VALUE_FROM_INIT_POST'
-# Capture the CLIENT TOKEN here, provided by your admin (in this case, see the provided Postman Collection POST init vault request.)
-vault_client_token = 'REPLACE_WITH_ROOT_TOKEN_FROM_INIT_POST'
-
+print(os.environ)
+# Capture UNSEAL key we set in Env. Variable
+vault_unseal_key = os.environ['UNSEAL_KEY']
+print(vault_unseal_key)
+# Capture the CLIENT TOKEN we set in Env. Variable
+vault_client_token = os.environ['CLIENT_TOKEN']
+print(vault_client_token)
 # Define your MOUNT POINT and PATH where your secrets are saved
 vault_mount_point = 'kv-v1'
 vault_path = '/devnet/dnac/sb1'
 ```
 
 ## SUCCESS
-You have now integrated your application with a centralized vault that holds some, if not all your API Credentials and Tokens in a secure fasion. Imagine automating a multi-domain environment where you have different API calls to different endpoints, juggling Auth Token can be tedious and time consuming. Vault makes your life simple! Cool!
+You have now integrated your application with a centralized vault that holds some, if not all your API Credentials and Tokens in a secure fashion. Imagine automating a multi-domain environment where you have different API calls to different endpoints, juggling Auth Token can be tedious and time consuming. Vault makes your life simple! Cool!
 
 
  
