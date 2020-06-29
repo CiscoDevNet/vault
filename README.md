@@ -76,7 +76,7 @@ In the Postman Vault Collection, execute the following commands:
 At this point you have everything you need to start storing API keys, authentication credentials, and tokens within your Vault instance.
 
 ### Step 3: Register the AppRole Application
-You don't want to give our application `Root` access. Instead, you want to register an [AppRole](https://www.vaultproject.io/docs/auth/approle) to authenticate our app against your instance of Vault.
+You don't want to give your application `Root` access. Instead, you want to register an [AppRole](https://www.vaultproject.io/docs/auth/approle) to authenticate our app against your instance of Vault.
 
 In the provided Postman Collection:
 
@@ -101,7 +101,7 @@ To generate a new `CLIENT TOKEN` you first need to fetch your `Role ID` and gene
 In the provided Postman Collection:
 
 1. `Get Role ID` fetches the `my-role` ID created above.
-2. `Create Secret ID` uses the `my-role` ID you will generate a new `Secret ID`
+2. `Create Secret ID` uses the `my-role` ID you will generate a new `Secret ID`.
 3. `Fetch Client Token` generates a `client_token` for writing, reading, and updating secrets in the mount to which ACL granted permission; in this case `kv-v1/devnet/dnac/*` **Use this in you application to authenticate, Capture It!**
 
 
@@ -131,9 +131,21 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-⚠️ Be sure to alter the `vault_unseal_key` and `vault_client_token` based on your instance of Vault.
+⚠️ Put the `UNSEAL KEY` and `CLIENT TOKEN` into environment variables.
 
-```Python
+##### Terminal
+
+```shell
+export CLIENT_TOKEN=<PLACE_YOUR_CLIENT_TOKEN_HERE>
+export UNSEAL_KEY=<PLACE_YOUR_UNSEAL_KEY_HERE>
+```
+##### Python
+
+```shell
+import hvac
+import os
+from dnacentersdk import DNACenterAPI
+
 # Instantiate new Vault client
 client = hvac.Client()
 
